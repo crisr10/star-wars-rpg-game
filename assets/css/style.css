@@ -1,0 +1,44 @@
+body {
+	background-image: url('../images/BackgroundRPG.jpg')
+}
+
+#RPGTitle {
+	color:white;
+	text-align:center;
+	font-weight:900;
+	font-size: 50px;
+}
+
+#mainTitle {
+	color: white;
+	text-align:center;
+}
+
+/*Where characters are appended initially*/
+#characters {
+	width:100%;
+	display: inline-block;
+}
+
+.characterName, .characterHealth {
+	width:200px;
+	background-color: white;
+	margin: 0 auto;
+}
+
+
+
+.image {
+	width:200px;
+	display:block;
+	margin: auto;
+}
+
+.character {
+	float: left;
+	text-align: center;
+	display:block;
+	width:200px;
+	height:180px;
+	margin: 10px 0;
+}
