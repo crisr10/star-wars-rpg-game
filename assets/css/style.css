@@ -42,3 +42,23 @@ body {
 	height:180px;
 	margin: 10px 0;
 }
+.title {
+	text-align: center;
+	font-size: 30px;
+	color: white;
+}
+
+/*Picking a character*/
+.yourCharacter {
+	clear:all;
+	text-align: center;
+	display:block;
+	width:200px;
+	height:180px;
+	margin: 10px auto;
+}
+
+
+
+
+

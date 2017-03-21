@@ -38,36 +38,75 @@ $(document).ready(function() {
 	};
 
 	// Array of character objects
-	var characters = [luke, maul, yoda, kilo];
+	var charactersObjects = [luke, maul, yoda, kilo];
+
+	// Array of strings with characters nick names
+	var characters = [];
+
+
+// ========================= FUNCTIONS =========================
 
 	// function to create each box/character in the DOM
-	function createCharacter(characters) {
-		for ( var i = 0; i < characters.length; i++) {
+	function createCharacter(arg) {
 
-			// jQuery Object that takes the attributes of each character
-			var $character = $('<div id='+characters[i].nickName+'>');
-			$character.append('<div class="characterName">'+characters[i].name);
-			$character.append(characters[i].image);
-			$character.append('<div class="characterHealth">'+characters[i].health);
-			$character.attr('class', 'character col-md-3');
-			$character.attr("data_name", characters[i].name);
+			for ( var i = 0; i < arg.length; i++) {
 
-			$('#characters').append($character);
-			// Console log the jquery $character object
-			console.log($character);
-		}
+				// jQuery Object that takes the attributes of each character
+				var $character = $('<div id='+arg[i].nickName+'>');
+				$character.append('<div class="characterName">'+arg[i].name);
+				$character.append(arg[i].image);
+				$character.append('<div class="characterHealth">'+arg[i].health);
+				$character.attr('class', 'character col-md-3');
+				$character.attr('data_nickName', arg[i].nickName);
+				$character.attr("data_name", arg[i].name);
+				$character.attr('data_attack', arg[i].attack);
+				$character.attr('data_health', arg[i].health);
+
+				characters.push(arg[i].nickName);
+
+				$('#characters').append($character);
+				// Console log the jquery $character object
+				console.log($character);
+
+				}
 	}; // CLOSING createCharacter
 
 	function pickYourCharacter() {
+		// TODO
+		// this function should pick your character and then automaticaly make the other charaters enemies.
+		$('.character').on('click', function() {
+			$('#characters').empty();
+			$('#characters').append('<div class="title">Your Character</div>')
 
+			var $yourCharacter = $(this);
+			$yourCharacter.addClass('yourCharacter');
+			$yourCharacter.removeClass('col-md-3 character');
+
+			$('#characters').append($yourCharacter);
+
+			$('#characters').append('<div class="title">Pick Your Enemy</div>');
+
+			// TODO
+			// Now that we have picked our character, now we need to display the enemies to fight
+			// remove the chosen character and then run the createCharacters function again to recreate the 'enemies'
+
+			console.log(characters.indexOf($yourCharacter.attr('data_nickName')))
+
+		});
 	}
 
-	// Calling function createCharacters with the parameter characters array
-	createCharacter(characters);
 
-	$('.character').on('click', function() {
-		pickYourCharacter();
-	});
+	// =========================================================a
+
+	// Calling function createCharacters with the parameter characters array
+	createCharacter(charactersObjects);
+	pickYourCharacter();
+
+
+
+	// TODO
+
+
 
 }); // CLOSING BRACKET FOR DOCUMENT LOAD
 
