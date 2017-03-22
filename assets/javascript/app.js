@@ -42,13 +42,13 @@ $(document).ready(function() {
 
 	// Array of strings with characters nick names
 	var characters = [];
+	var $yourCharacter;
+	var $currentEnemy;
 
-// ========================= START GAME =========================
-	startGame();
-
-// ========================= FUNCTIONS =========================
+// ====================== FUNCTIONS =======================
 
 	function startGame() {
+		new Audio('assets/sound-effects/battle-of-the-heroes.mp3').play()
 		createCharacters(charactersObjects);
 		pickYourCharacter();
 	}
@@ -79,7 +79,7 @@ $(document).ready(function() {
 			} // end of if statement
 
 			else if (arg.length === 3 ) {
-					characters = [];
+				characters = [];
 				for ( var i = 0; i < arg.length; i++) {
 
 					// jQuery Object that takes the attributes of each character
@@ -98,11 +98,9 @@ $(document).ready(function() {
 
 					$('#characters').append($character);
 
-
-					// pickYourOpponent();
-
 				}
 					console.log(characters);
+					pickYourOpponent();
 			}
 
 	}; // CLOSING createCharacter
@@ -114,7 +112,7 @@ $(document).ready(function() {
 			$('#characters').empty();
 			$('#characters').append('<div class="title">Your Character</div>')
 
-			var $yourCharacter = $(this);
+			$yourCharacter = $(this);
 			console.log($yourCharacter.attr("data_name"));
 			$yourCharacter.addClass('yourCharacter');
 			$yourCharacter.removeClass('col-md-3 character');
@@ -122,6 +120,7 @@ $(document).ready(function() {
 			$('#characters').append($yourCharacter);
 
 			$('#characters').append('<div class="title">Pick Your Enemy</div>');
+			$('#characters').append('	<audio id="enemySound" src="assets/sound-effects/fx4.wav"></audio>');
 
 			// remove the chosen character and then run the createCharacters function again to recreate the 'enemies'
 			var indexRemove = characters.indexOf($yourCharacter.attr('data_nickName'))
@@ -133,25 +132,61 @@ $(document).ready(function() {
 		});
 	}
 
-	// function pickYourOpponent() {
-	// 	if (characters != 0) {
-	// 		$('.enemy').on('click', function() {
-	// 			$('#characters').empty();
-	// 		})
+	function pickYourOpponent() {
+		console.log("pick your opponent")
+			$('.enemy').on('click', function() {
+				$('#characters').empty();
+				$('#characters').append('<div class="col-md-6" id="yourCharacter">');
+				$('#characters').append('<div class="col-md-6" id="currentEnemy">');
 
-	// 	} else {
-	// 		return false
-	// 	}
-	// }
+				$('#yourCharacter').append($yourCharacter);
+
+				$currentEnemy = $(this);
+
+				$currentEnemy.addClass('currentEnemy');
+				$currentEnemy.removeClass('enemy');
+
+				$('#currentEnemy').append($currentEnemy);
+			})
+	}
+
+// =========================================================
 
 
-	// =========================================================a
+// ====================== START GAME ====================
+	// Start the game
+	startGame();
+
+// ===================== SOUND EFFECTS ===================
+
+	var $lightSaberSound = $("#lightSaber");
+
+		$(".character > .image").on('mouseenter', function() {
+			$lightSaberSound.get(0).play();
+		});
+
+		$(".character > .image").on('mouseout', function() {
+			$lightSaberSound.get(0).pause();
+			$lightSaberSound.get(0).currentTime = 0;
+		});
+
+	var $enemySaberSound = $('#enemySound');
+
+		$(".enemy > .image").on('mouseenter', function() {
+			$enemySaberSound.get(0).play();
+		});
+
+		$(".enemy > .image").on('mouseout', function() {
+			$enemySaberSound.get(0).pause();
+			$enemySaberSound.get(0).currentTime = 0;
+		});
 
 
 
 
+// =========================================================
 
-	// TODO
+
 
 
 
