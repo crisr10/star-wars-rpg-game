@@ -43,11 +43,20 @@ $(document).ready(function() {
 	// Array of strings with characters nick names
 	var characters = [];
 
+// ========================= START GAME =========================
+	startGame();
 
 // ========================= FUNCTIONS =========================
 
+	function startGame() {
+		createCharacters(charactersObjects);
+		pickYourCharacter();
+	}
+
+
 	// function to create each box/character in the DOM
-	function createCharacter(arg) {
+	function createCharacters(arg) {
+		if (arg.length === 4 ) {
 
 			for ( var i = 0; i < arg.length; i++) {
 
@@ -56,19 +65,46 @@ $(document).ready(function() {
 				$character.append('<div class="characterName">'+arg[i].name);
 				$character.append(arg[i].image);
 				$character.append('<div class="characterHealth">'+arg[i].health);
-				$character.attr('class', 'character col-md-3');
 				$character.attr('data_nickName', arg[i].nickName);
 				$character.attr("data_name", arg[i].name);
 				$character.attr('data_attack', arg[i].attack);
 				$character.attr('data_health', arg[i].health);
+				$character.attr('class', 'character col-md-3');
 
 				characters.push(arg[i].nickName);
 
 				$('#characters').append($character);
-				// Console log the jquery $character object
-				console.log($character);
 
 				}
+			} // end of if statement
+
+			else if (arg.length === 3 ) {
+					characters = [];
+				for ( var i = 0; i < arg.length; i++) {
+
+					// jQuery Object that takes the attributes of each character
+					var $character = $('<div id='+arg[i].nickName+'>');
+					$character.append('<div class="characterName">'+arg[i].name);
+					$character.append(arg[i].image);
+					$character.append('<div class="characterHealth">'+arg[i].health);
+					// att data attributes to use with the logic of the game
+					$character.attr('data_nickName', arg[i].nickName);
+					$character.attr("data_name", arg[i].name);
+					$character.attr('data_attack', arg[i].attack);
+					$character.attr('data_health', arg[i].health);
+					$character.attr('class', 'enemy');
+
+					characters.push(arg[i].nickName);
+
+					$('#characters').append($character);
+
+
+					// pickYourOpponent();
+
+				}
+					console.log(characters);
+			}
+
 	}; // CLOSING createCharacter
 
 	function pickYourCharacter() {
@@ -79,6 +115,7 @@ $(document).ready(function() {
 			$('#characters').append('<div class="title">Your Character</div>')
 
 			var $yourCharacter = $(this);
+			console.log($yourCharacter.attr("data_name"));
 			$yourCharacter.addClass('yourCharacter');
 			$yourCharacter.removeClass('col-md-3 character');
 
@@ -86,21 +123,31 @@ $(document).ready(function() {
 
 			$('#characters').append('<div class="title">Pick Your Enemy</div>');
 
-			// TODO
-			// Now that we have picked our character, now we need to display the enemies to fight
 			// remove the chosen character and then run the createCharacters function again to recreate the 'enemies'
+			var indexRemove = characters.indexOf($yourCharacter.attr('data_nickName'))
+			charactersObjects.splice(indexRemove, 1);
 
-			console.log(characters.indexOf($yourCharacter.attr('data_nickName')))
+			// call createCharacters function again, but this time there are only 3
+			createCharacters(charactersObjects);
 
 		});
 	}
 
+	// function pickYourOpponent() {
+	// 	if (characters != 0) {
+	// 		$('.enemy').on('click', function() {
+	// 			$('#characters').empty();
+	// 		})
+
+	// 	} else {
+	// 		return false
+	// 	}
+	// }
+
 
 	// =========================================================a
 
-	// Calling function createCharacters with the parameter characters array
-	createCharacter(charactersObjects);
-	pickYourCharacter();
+
 
 
 

@@ -2,6 +2,18 @@ body {
 	background-image: url('../images/BackgroundRPG.jpg')
 }
 
+ @font-face {
+ 	font-family: Death-Star;
+ 	src: url('../fonts/death_star/Death-Star.otf');
+ }
+
+ @font-face {
+ 	font-family: aliens-and-cows;
+ 	src: url('../fonts/zetafonts_aliens-and-cows/aliens-and-cows.ttf');
+ }
+
+
+
 #RPGTitle {
 	color:white;
 	text-align:center;
@@ -10,8 +22,11 @@ body {
 }
 
 #mainTitle {
+	font-family: Death-Star, sans-serif;
 	color: white;
 	text-align:center;
+	font-size: 85px;
+	text-shadow: 7px 7px 7px black;
 }
 
 /*Where characters are appended initially*/
@@ -20,21 +35,9 @@ body {
 	display: inline-block;
 }
 
-.characterName, .characterHealth {
-	width:200px;
-	background-color: white;
-	margin: 0 auto;
-}
-
-
-
-.image {
-	width:200px;
-	display:block;
-	margin: auto;
-}
-
 .character {
+	font-family: aliens-and-cows, sans-serif;
+	font-size: 40px;
 	float: left;
 	text-align: center;
 	display:block;
@@ -42,20 +45,58 @@ body {
 	height:180px;
 	margin: 10px 0;
 }
+
+.characterName, .characterHealth {
+	color: white;
+	width:100%;
+	margin: 0 auto;
+}
+
+
+
+.characterHealth {
+	font-family: sans-serif;
+	font-size:20px;
+}
+
+
+.image {
+	width:100%;
+	display:block;
+	margin: auto;
+	-moz-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+	-webkit-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+	box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+}
+
 .title {
 	text-align: center;
-	font-size: 30px;
+	font-size: 50px;
 	color: white;
+	font-family: aliens-and-cows, sans-serif;
+	text-decoration: underline;
 }
 
 /*Picking a character*/
-.yourCharacter {
+.yourCharacter{
+	font-family: aliens-and-cows, sans-serif;
+	font-size: 40px;
 	clear:all;
 	text-align: center;
 	display:block;
-	width:200px;
-	height:180px;
+	width:250px;
 	margin: 10px auto;
+}
+
+.enemy {
+	font-family: aliens-and-cows, sans-serif;
+	font-size: 30px;
+	clear:all;
+	text-align: center;
+	display:inline-block;
+	width:200px;
+	margin: 10px 95px;
+
 }
 
 
