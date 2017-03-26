@@ -15,7 +15,7 @@ $(document).ready(function() {
 		nickName: 'maul',
 		name: 'Darth Maul',
 		health: 130,
-		attack: 5,
+		attack: 10,
 		image: '<img src="assets/images/DarthMaul.jpg" class="image">'
 	};
 
@@ -24,7 +24,7 @@ $(document).ready(function() {
 		nickName: 'yoda',
 		name: 'Master Yoda',
 		health: 150,
-		attack: 10,
+		attack: 2,
 		image: '<img src="assets/images/MasterJoda.jpg" class="image">'
 	};
 
@@ -44,13 +44,25 @@ $(document).ready(function() {
 	var characters = [];
 	var $yourCharacter;
 	var $currentEnemy;
+	// Your Character's health and attack
+	var yourHealth;
+	var yourAttack;
+	// current's enemy's health and attack
+	var currentEnemyHealth = 0;
+	var currentEnemyAttack = 0;
+
+	var counter = 0;
+	var compoundAttack = 0;
 
 // ====================== FUNCTIONS =======================
 
 	function startGame() {
-		new Audio('assets/sound-effects/battle-of-the-heroes.mp3').play()
+		// new Audio('assets/sound-effects/battle-of-the-heroes.mp3').play()
+
 		createCharacters(charactersObjects);
 		pickYourCharacter();
+		pickYourOpponent();
+		// fight();
 	}
 
 
@@ -78,8 +90,13 @@ $(document).ready(function() {
 				}
 			} // end of if statement
 
-			else if (arg.length === 3 ) {
+			else if (arg.length <= 3 ) {
+
+				$('#remainingEnemies').empty()
+
 				characters = [];
+
+				$('#remainingEnemies').append('<div class="title">Remaining Enemies</div>')
 				for ( var i = 0; i < arg.length; i++) {
 
 					// jQuery Object that takes the attributes of each character
@@ -96,11 +113,12 @@ $(document).ready(function() {
 
 					characters.push(arg[i].nickName);
 
-					$('#characters').append($character);
-
+					$('#remainingEnemies').append($character);
 				}
-					console.log(characters);
+
+				if (!$currentEnemy) {
 					pickYourOpponent();
+				}
 			}
 
 	}; // CLOSING createCharacter
@@ -113,14 +131,15 @@ $(document).ready(function() {
 			$('#characters').append('<div class="title">Your Character</div>')
 
 			$yourCharacter = $(this);
-			console.log($yourCharacter.attr("data_name"));
 			$yourCharacter.addClass('yourCharacter');
 			$yourCharacter.removeClass('col-md-3 character');
 
+			yourHealth = parseInt($yourCharacter.attr('data_health'));
+			yourAttack = parseInt($yourCharacter.attr('data_attack'));
+
 			$('#characters').append($yourCharacter);
 
-			$('#characters').append('<div class="title">Pick Your Enemy</div>');
-			$('#characters').append('	<audio id="enemySound" src="assets/sound-effects/fx4.wav"></audio>');
+			$('#remainingEnemies').append('<div class="title">Pick Your Enemy</div>');
 
 			// remove the chosen character and then run the createCharacters function again to recreate the 'enemies'
 			var indexRemove = characters.indexOf($yourCharacter.attr('data_nickName'))
@@ -130,25 +149,122 @@ $(document).ready(function() {
 			createCharacters(charactersObjects);
 
 		});
-	}
+	};
 
 	function pickYourOpponent() {
-		console.log("pick your opponent")
+
+
 			$('.enemy').on('click', function() {
 				$('#characters').empty();
-				$('#characters').append('<div class="col-md-6" id="yourCharacter">');
-				$('#characters').append('<div class="col-md-6" id="currentEnemy">');
+				$('#currentEnemy').empty();
+				$('#fightButton').empty();
 
-				$('#yourCharacter').append($yourCharacter);
-
+				// enemy picked
 				$currentEnemy = $(this);
 
 				$currentEnemy.addClass('currentEnemy');
 				$currentEnemy.removeClass('enemy');
 
+				// append your character and enemy picked to the fighting area
+				$('#yourCharacter').append($yourCharacter);
+
+				$('#fightButton').append('<img src="http://vignette1.wikia.nocookie.net/starwars/images/d/df/Dueling_lightsabers.svg/revision/latest/scale-to-width-down/500?cb=20100526152749" id="lightSabers">')
+
 				$('#currentEnemy').append($currentEnemy);
-			})
-	}
+
+
+				var indexRemove = characters.indexOf($currentEnemy.attr('data_nickName'));
+				charactersObjects.splice(indexRemove, 1);
+
+				createCharacters(charactersObjects);
+
+				fight();
+
+			});
+	};
+
+
+	function fight() {
+
+			currentEnemyAttack = 0;
+			console.log(currentEnemyAttack);
+
+			// Your enemy's health and attack
+			currentEnemyAttack = parseInt($currentEnemy.attr('data_attack'));
+			// console.log("CURRENT ENEMY ATTACK: ", currentEnemyAttack);
+			currentEnemyHealth = parseInt($currentEnemy.attr('data_health'));
+
+		$('#lightSabers').on('click', function() {
+
+			counter++;
+
+			compoundAttack += yourAttack;
+			console.log("COMPOUND ATTACK: ", compoundAttack);
+
+			// After attack
+			currentEnemyHealth = currentEnemyHealth - compoundAttack;
+			yourHealth = yourHealth - currentEnemyAttack;
+			console.log("CURRENT ENEMY ATTACK: ", currentEnemyAttack);
+			console.log("ENEMY HEALTH: ",currentEnemyHealth);
+			console.log("YOUR HEALTH: ",yourHealth);
+
+
+			$('.currentEnemy > .characterHealth').html(currentEnemyHealth);
+			$('.yourCharacter > .characterHealth').html(yourHealth);
+
+			if (currentEnemyHealth <= 0 && yourHealth > 0) {
+
+				yourHealth = yourHealth - currentEnemyAttack;
+
+				console.log("YOU HAVE DEFEATED " + $currentEnemy.attr('data_nickName'));
+
+				$('#currentEnemy').empty();
+
+				// currentEnemyAttack = 0;
+
+				if (characters.legth === 0) {
+					alert("Congrats, You WON");
+				} else {
+					pickYourOpponent();
+				}
+
+			}
+
+			else if (yourHealth <= 0) {
+				alert("You have been defeated");
+				alert("try again");
+				return false;
+			}
+
+		});
+	};
+
+
+
+			// 	$(document).on('click', '#lightSabers', function() {
+			// 		counter++;
+			// 		console.log("CLICKED LIGHTSABERS");
+			// 		fight();
+			// 	});
+			// }
+
+			// else if (yourHealth <= 0 && currentEnemyHealth > 0) {
+			// 	console.log("You lost");
+			// 	$('#remainingEnemies').empty();
+			// 	$('#remainingEnemies').append('<div class="title">You Lost</div>');
+			// 	$('#remainingEnemies').append('<button class="btn btn-default btn-lg">RESTART');
+
+			// }
+
+			// else if (yourHealth > 0 && currentEnemyHealth <= 0) {
+			// 	console.log('Enemy defeated');
+			// 	$('#currentEnemy').empty();
+
+			// 	pickYourOpponent();
+
+			// }
+
+		// }
 
 // =========================================================
 
@@ -156,39 +272,6 @@ $(document).ready(function() {
 // ====================== START GAME ====================
 	// Start the game
 	startGame();
-
-// ===================== SOUND EFFECTS ===================
-
-	var $lightSaberSound = $("#lightSaber");
-
-		$(".character > .image").on('mouseenter', function() {
-			$lightSaberSound.get(0).play();
-		});
-
-		$(".character > .image").on('mouseout', function() {
-			$lightSaberSound.get(0).pause();
-			$lightSaberSound.get(0).currentTime = 0;
-		});
-
-	var $enemySaberSound = $('#enemySound');
-
-		$(".enemy > .image").on('mouseenter', function() {
-			$enemySaberSound.get(0).play();
-		});
-
-		$(".enemy > .image").on('mouseout', function() {
-			$enemySaberSound.get(0).pause();
-			$enemySaberSound.get(0).currentTime = 0;
-		});
-
-
-
-
-// =========================================================
-
-
-
-
 
 }); // CLOSING BRACKET FOR DOCUMENT LOAD
 

@@ -21,17 +21,29 @@
 		 	<div class='title'>Pick your Character</div>
 		 		<!-- LIGHTSABRE SOUND EFFECT -->
 	<audio id="lightSaber" src="assets/sound-effects/lightsaber.wav"></audio>
-
 		 </div>
 		</div>
 	</div>
 
-	<audio id="enemySound" src="assets/sound-effects/fx4.wav"></audio>
+	<!-- Both your character and the enemy -->
+	<div class='container'>
+		<div class='row'>
+			<div class='col-md-5' id="yourCharacter"></div>
+			<div class='col-md-2' id="fightButton"></div>
+			<div class='col-md-5' id="currentEnemy"></div>
+		</div>
+	</div>
 
+	<!-- Append remaining enemies here until -->
+	<div class='container'>
+		<div class='row'>
+			<div id='remainingEnemies'></div>
+		</div>
+	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="assets/javascript/game.js"></script>
   <script src="assets/javascript/effects.js"></script>
-  <script src="assets/javascript/app.js"></script>
 </body>
 
 </html>
