@@ -57,7 +57,7 @@ $(document).ready(function() {
 // ====================== FUNCTIONS =======================
 
 	function startGame() {
-		// new Audio('assets/sound-effects/battle-of-the-heroes.mp3').play()
+		new Audio('assets/sound-effects/battle-of-the-heroes.mp3').play()
 
 		createCharacters(charactersObjects);
 		pickYourCharacter();
@@ -274,11 +274,6 @@ $(document).ready(function() {
 	startGame();
 
 }); // CLOSING BRACKET FOR DOCUMENT LOAD
-
-// Create a loop that goes over each one of the objects inside the characters array. This loop should display the puctures of each character.
-// How to append each picture in the characters. It's easy to append each picture, now each one of these should have all the attributes neded to start the game
-
-//
 
 
 
