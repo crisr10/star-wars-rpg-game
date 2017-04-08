@@ -5,6 +5,9 @@ Star Wars Themed role playing game created with JavaScript, jQuery, HTML and CSS
 ## Game Logic
 
 * When the game starts, the player will choose a character by clicking on the fighter's picture. The player will fight as that character for the rest of the game.
+
+<img src="https://github.com/crisr10/star-wars-rpg-game/blob/master/assets/images/game-images/Screenshot1.png?raw=true" height="200px" margin-right="auto" margin-left="auto"/>
+
 * The player must then defeat all of the remaining fighters. Enemies should be moved to a different area of the screen.
 * The player chooses an opponent by clicking on an enemy's picture.
 * Once the player selects an opponent, that enemy is moved to a `defender area`.
