@@ -53,6 +53,7 @@ $(document).ready(function() {
 
 	var counter = 0;
 	var compoundAttack = 0;
+	var isThereOpponent = false;
 
 // ====================== FUNCTIONS =======================
 
@@ -153,7 +154,6 @@ $(document).ready(function() {
 
 	function pickYourOpponent() {
 
-
 			$('.enemy').on('click', function() {
 				$('#characters').empty();
 				$('#currentEnemy').empty();
@@ -171,6 +171,7 @@ $(document).ready(function() {
 				$('#fightButton').append('<img src="http://vignette1.wikia.nocookie.net/starwars/images/d/df/Dueling_lightsabers.svg/revision/latest/scale-to-width-down/500?cb=20100526152749" id="lightSabers">')
 
 				$('#currentEnemy').append($currentEnemy);
+				isThereOpponent = true;
 
 
 				var indexRemove = characters.indexOf($currentEnemy.attr('data_nickName'));
@@ -178,23 +179,31 @@ $(document).ready(function() {
 
 				createCharacters(charactersObjects);
 
-				fight();
+				currentEnemyAttack = 0;
+				console.log(currentEnemyAttack);
 
+				// Your enemy's health and attack
+				currentEnemyAttack = parseInt($currentEnemy.attr('data_attack'));
+				// console.log("CURRENT ENEMY ATTACK: ", currentEnemyAttack);
+				currentEnemyHealth = parseInt($currentEnemy.attr('data_health'));
+
+				console.log('IS THERE OPPONENT: ' + isThereOpponent)
+
+				// Check if there is an opponent
+				$('#lightSabers').on('click', function() {
+					if (isThereOpponent) {
+						fight();
+					} else {
+						alert('YOU NEED TO PICK AN OPPONENT');
+					}
+				});
 			});
 	};
 
 
 	function fight() {
 
-			currentEnemyAttack = 0;
-			console.log(currentEnemyAttack);
-
-			// Your enemy's health and attack
-			currentEnemyAttack = parseInt($currentEnemy.attr('data_attack'));
-			// console.log("CURRENT ENEMY ATTACK: ", currentEnemyAttack);
-			currentEnemyHealth = parseInt($currentEnemy.attr('data_health'));
-
-		$('#lightSabers').on('click', function() {
+		// We need to isolate the lightsabers click function in order to create some conditions that allow me to stop the game when it doesn't meet some parameters
 
 			counter++;
 
@@ -209,35 +218,59 @@ $(document).ready(function() {
 			console.log("YOUR HEALTH: ",yourHealth);
 
 
-			$('.currentEnemy > .characterHealth').html(currentEnemyHealth);
-			$('.yourCharacter > .characterHealth').html(yourHealth);
+			$('.currentEnemy > .characterHealth').html(currentEnemyHealth).animate({
+				fontSize: 60,
+				color: '#FF0000'
+			}, 300, function() {
+				$(this).animate({
+					fontSize: 20,
+					color: 'white'
+				}, 300);
+			});
+			$('.yourCharacter > .characterHealth').html(yourHealth).animate({
+				fontSize: 60,
+				color: '#FF0000'
+			}, 300, function() {
+				$(this).animate({
+					fontSize: 20,
+					color: 'white'
+				}, 300);
+			});
 
 			if (currentEnemyHealth <= 0 && yourHealth > 0) {
 
+				isThereOpponent = false;
 				yourHealth = yourHealth - currentEnemyAttack;
 
 				console.log("YOU HAVE DEFEATED " + $currentEnemy.attr('data_nickName'));
+				console.log('IS THERE OPPONENT: ' + isThereOpponent)
 
 				$('#currentEnemy').empty();
 
 				// currentEnemyAttack = 0;
 
-				if (characters.legth === 0) {
+				if (characters.length === 0) {
 					alert("Congrats, You WON");
+					restartGame();
 				} else {
 					pickYourOpponent();
-				}
-
+				};
 			}
 
 			else if (yourHealth <= 0) {
 				alert("You have been defeated");
 				alert("try again");
-				return false;
-			}
-
-		});
+				restartGame();
+			};
 	};
+
+	function restartGame() {
+		$('.row').empty();
+		$('.restart').append('<button class="restartBtn btn btn-lg btn-warning">Restart Game</button>');
+			$('.restartBtn').on('click', function() {
+				location.reload();
+			})
+	}
 
 
 
@@ -275,6 +308,6 @@ $(document).ready(function() {
 
 }); // CLOSING BRACKET FOR DOCUMENT LOAD
 
-
+// NEW OBJECTIVE, NOTHING SHOULD WORK UNLESS THE NEW ENEMY IS SELECTED. CREATE A BOOLEAN THAT HAS TO BE TRUE IN ORDER TO CONTINUE THE GAME
 
 
