@@ -21,4 +21,3 @@ Star Wars Themed role playing game created with JavaScript, jQuery, HTML and CSS
 
 All you need to do is copy the file to your local machine. There are no dependencies to install
 
-### THIS IS A WORK IN PROGRESS
