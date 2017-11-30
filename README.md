@@ -1,6 +1,7 @@
 # Star Wars RPG
 
 Star Wars Themed role playing game created with JavaScript, jQuery, HTML and CSS
+
 [Live Demo](https://star-wars-final-battle.herokuapp.com/)
 
 ## Game Logic
